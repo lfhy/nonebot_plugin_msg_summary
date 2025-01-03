@@ -32,8 +32,10 @@ async def get_group_msg_history(
         if msg == "":
             continue
 
-        sender = message["sender"]["card"]
+        sender = message["sender"]["card"] or message["sender"]["nickname"]
         result.append({sender: msg})
+
+    result.pop()  # 去除请求总结的命令
 
     return result
 
@@ -78,25 +80,24 @@ async def _(bot: Bot, event: GroupMessageEvent, args: Message = CommandArg()):
     # 如果没有数字或者@，则不处理
     if num is None and qq is None:
         return
-    
+
     group_id = event.group_id
     messages = await get_group_msg_history(bot, group_id, num)
-    messages.pop()
     if not messages:
         await summary_group.finish("未能获取到聊天记录。")
 
     if qq is None:
         # 总结整个群聊内容
         summary = await summary_history(
-            messages, "请详细总结这个群聊的主要内容，用中文回答。"
+            messages, "请详细总结这个群聊的内容脉络，要有什么人说了什么，用中文回答。"
         )
     else:
         # 只针对某个用户的聊天内容进行总结
         member_info = await bot.get_group_member_info(group_id=group_id, user_id=qq)
-        name = member_info["card"]
+        name: str = member_info["card"] or member_info["nickname"]
         summary = await summary_history(
             messages,
-            f"请总结对话中仅与有关{name}的内容，用中文回答。",
+            f"请总结对话中与{name}相关的内容，用中文回答。",
         )
 
     await summary_group.finish(summary.strip())
