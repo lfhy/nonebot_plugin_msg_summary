@@ -13,8 +13,8 @@ if config.gemini_key is None:
 
 __plugin_meta__ = PluginMetadata(
     name="群聊总结",
-    description="分析群聊记录，生成讨论内容的总结。",
-    usage="1.总结 [消息数量]\n总结改群以上数量的信息\n2.总结 [QQ号] [消息数量]\n总结指定人相关信息 ",
+    description="基于Nonebot2，使用Gemini分析群聊记录，生成讨论内容的总结。",
+    usage="1.总结 [消息数量] ：生成该群最近消息数量的内容总结\n2.总结 [@群友] [消息数量] ：生成指定群友相关内容总结",
     type="application",
     homepage="https://github.com/StillMisty/nonebot_plugin_summary_group",
 )

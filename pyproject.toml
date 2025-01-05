@@ -17,7 +17,7 @@ classifiers = [
     "Topic :: Communications :: Chat",
 ]
 keywords = ["nonebot2", "nonebot", "plugin", "summary", "gemini", "group-chat"]
-dependencies = ["httpx", "nonebot-adapter-onebot", "nonebot2"]
+dependencies = ["httpx", "nonebot-adapter-onebot", "nonebot2", "pydantic"]
 
 [build-system]
 requires = ["setuptools"]
