@@ -8,15 +8,15 @@ from math import ceil
 import httpx
 from .Config import config
 
-if config.gemini_key is None:
-    raise ValueError("未提供 Gemini API Key。")
+if config.summary_ai_key is None:
+    raise ValueError("未提供 总结 API Key。")
 
 __plugin_meta__ = PluginMetadata(
     name="群聊总结",
-    description="基于Nonebot2，使用Gemini分析群聊记录，生成讨论内容的总结。",
+    description="基于Nonebot2，使用AI分析群聊记录，生成讨论内容的总结。",
     usage="1.总结 [消息数量] ：生成该群最近消息数量的内容总结\n2.总结 [@群友] [消息数量] ：生成指定群友相关内容总结",
     type="application",
-    homepage="https://github.com/StillMisty/nonebot_plugin_summary_group",
+    homepage="https://github.com/lfhy/nonebot_plugin_msg_summary",
 )
 
 summary_group = on_command("总结", priority=5, block=True)
@@ -51,12 +51,13 @@ async def get_group_msg_history(
 
 
 async def summary_history(messages: list[dict[str, str]], prompt: str) -> str:
-    url = f"https://generativelanguage.googleapis.com/v1beta/models/{config.summary_model}:generateContent?key={config.gemini_key}"
-    headers = {"Content-Type": "application/json"}
+    url = f"{config.summary_ai_endpoint}{config.summary_ai_api}"
+    headers = {"Content-Type": "application/json","Authorization":f"Bearer {config.summary_ai_key}"}
     data = {
-        "contents": [
-            {"parts": [{"text": prompt}], "role": "user"},
-            {"parts": [{"text": str(messages)}], "role": "user"},
+        "model": config.summary_ai_model,
+        "messages": [
+            {"content": prompt, "role": "user"},
+            {"content": str(messages), "role": "user"},
         ]
     }
 
@@ -67,7 +68,7 @@ async def summary_history(messages: list[dict[str, str]], prompt: str) -> str:
 
             result = response.json()
 
-            return result["candidates"][0]["content"]["parts"][0]["text"]
+            return result["choices"][0]["message"]["content"]
 
         except httpx.TimeoutException:
             return "请求超时，请缩短总结消息数量或联系管理员调整超时时间"

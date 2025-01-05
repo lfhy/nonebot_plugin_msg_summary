@@ -1,8 +1,8 @@
 [project]
-name = "nonebot-plugin-summary-group"
+name = "nonebot-plugin-msg-summary"
 version = "0.3.3"
-authors = [{ name = "StillMisty", email = "1772797842@qq.com" }]
-description = "基于Nonebot2，使用Gemini分析群聊记录，生成讨论内容的总结。"
+authors = [{ name = "3000y", email = "821923589@qq.com" }]
+description = "基于Nonebot2，使用AI分析群聊记录，生成讨论内容的总结。"
 readme = "README.md"
 license.file = "LICENSE"
 requires-python = ">=3.10"
@@ -16,7 +16,7 @@ classifiers = [
     "Operating System :: OS Independent",
     "Topic :: Communications :: Chat",
 ]
-keywords = ["nonebot2", "nonebot", "plugin", "summary", "gemini", "group-chat"]
+keywords = ["nonebot2", "nonebot", "plugin", "summary", "gpt","ai", "group-chat"]
 dependencies = ["httpx", "nonebot-adapter-onebot", "nonebot2", "pydantic"]
 
 [build-system]
@@ -24,4 +24,4 @@ requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
 
 [project.urls]
-Homepage = "https://github.com/StillMisty/nonebot_plugin_summary_group"
+Homepage = "https://github.com/lfhy/nonebot_plugin_msg_summary"
